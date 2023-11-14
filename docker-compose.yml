@@ -1,0 +1,77 @@
+version: "3.8" # docker-composeのバージョン
+services: # services配下に各コンテナの情報を記載する
+  app: # golangのコンテナ
+    container_name: app
+    build: # Dockerfileのあるディレクトリのパスを指定する
+      context: . # 起点となるディレクトリ
+      dockerfile: ./build/package/go/Dockerfile
+    # command: /bin/sh -c "while sleep 1000; do :; done"
+    volumes: # マウント元と先を指定
+      - .:/go/src/app
+    env_file: # .envファイル
+      - ./.env
+    environment:
+      - TZ=Asia/Tokyo
+      - OPENAPI_SPEC=./api/openapi.yml
+    tty: true # コンテナの永続化
+    ports: # 外部に公開するポートを指定する
+      - 7000:7000
+  db:
+    container_name: db
+    image: mysql:8.2.0
+    environment:
+      MYSQL_ROOT_PASSWORD: study42
+      MYSQL_DATABASE: inventory
+    volumes:
+      - ./build/package/mysql/data:/var/lib/mysql
+      - ./build/package/mysql/init:/docker-entrypoint-initdb.d
+      - ./build/package/mysql/log:/var/log/mysql
+      - ./build/package/mysql/conf.d:/etc/mysql/conf.d
+    networks:
+      - default
+  # db: # mysqlのコンテナ
+    # container_name: db
+    # build: # Dockerfileのあるディレクトリのパスを指定する
+    #   context: . # 起点となるディレクトリ
+    #   dockerfile: ./build/package/mysql/Dockerfile
+    # hostname: mysql # mysqlのホスト名を決める
+    # ports: # 外部に公開するポートを指定する
+    #   - 3309:3309
+    # tty: true # コンテナの永続化
+    # # mysqlの設定
+    # environment:
+    #   # MYSQL_ROOT_PASSWORDを使用するときはMYSQL_USERの指定は不要
+    #   # MYSQL_USER: root
+    #   MYSQL_ROOT_PASSWORD: study42
+    #   MYSQL_DATABASE: inventory
+    # # パスをボリュームとしてマウント
+    # # :の左側がホストディレクトリ、:の右側がコンテナ上のディレクトリ
+    # volumes:
+    #   # 永続化用のマウント先
+    #   - ./build/package/mysql/data:/var/lib/mysql
+    #   # 初期データ
+    #   - ./build/package/mysql/init:/docker-entrypoint-initdb.d
+    #   # ログ
+    #   - ./build/package/mysql/log:/var/log/mysql
+    #   # my.cnfの権限は読み取り専用にすること
+    #   - ./build/package/mysql/conf.d:/etc/mysql/conf.d
+    # # docker-compose run実行時に実行される
+    # # オプションは日本語文の字化けに対するおまじない
+    # # command: >
+    # #   sh -c "
+    # #   chmod 644 /etc/mysql/conf.d/my.cnf && 
+    # #   exec mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
+    # #   "
+    # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
+    # networks:
+    #   - default
+  # phpmyadmin: # phpMyAdminのコンテナ
+  #   container_name: phpmyadmin
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #   - PMA_ARBITRARY=1
+  #   - PMA_HOSTS=mysql_host
+  #   - PMA_USER=root
+  #   - PMA_PASSWORD=root
+  #   ports:
+  #   - 8080:8080
