@@ -18,7 +18,10 @@ services: # services配下に各コンテナの情報を記載する
       - 7000:7000
   db:
     container_name: db
-    image: mysql:8.2.0
+    # image: mysql:8.0
+    build: # Dockerfileのあるディレクトリのパスを指定する
+      context: . # 起点となるディレクトリ
+      dockerfile: ./build/package/mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: study42
       MYSQL_DATABASE: inventory
