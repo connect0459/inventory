@@ -58,3 +58,18 @@
 2023-11-14T13:54:00.065780Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
 2023-11-14T13:54:00.067251Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
 2023-11-14T13:54:00.068966Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.
+2023-11-14T14:16:05.927043Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2023-11-14T14:16:05.927071Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2023-11-14T14:16:05.934073Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.35) starting as process 1
+2023-11-14T14:16:05.934109Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file '/usr/share/mysql/errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2023-11-14T14:16:05.941400Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+2023-11-14T14:16:05.966153Z 0 [Warning] [MY-000054] [Server] World-writable config file '/var/lib/mysql/auto.cnf' is ignored.
+2023-11-14T14:16:05.967517Z 0 [Warning] [MY-010107] [Server] World-writable config file '/var/lib/mysql/auto.cnf' has been removed.
+2023-11-14T14:16:05.968348Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 5979402c-82f8-11ee-8b55-0242ac150002.
+2023-11-14T14:16:06.008742Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2023-11-14T14:16:06.014206Z 1 [Warning] [MY-012191] [InnoDB] Scan path 'ibdata' is ignored because it is a sub-directory of '/var/lib/mysql/
+2023-11-14T14:16:06.556897Z 1 [ERROR] [MY-012592] [InnoDB] Operating system error number 2 in a file operation.
+2023-11-14T14:16:06.557390Z 1 [ERROR] [MY-012593] [InnoDB] The error means the system cannot find the path specified.
+2023-11-14T14:16:06.557941Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
+2023-11-14T14:16:06.558325Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
+2023-11-14T14:16:06.558693Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.
