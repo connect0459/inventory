@@ -16,11 +16,11 @@ RUN apt-get update && \
     apt-get -y install default-mysql-client
 
 # Userの作成
-# ENV USERNAME = developer
+# ENV USERNAME = 
 # RUN useradd -m -d /home/${USERNAME} -s /bin/bash ${USERNAME}
 # USER ${USERNAME}
-# RUN git config --global user.email "you@example.com"
-# RUN git config --global user.name "Your Name"
+# RUN git config --global user.email "@gmail.com"
+# RUN git config --global user.name ""
 
 # Goモジュールを有効化
 # goのプロジェクトがGOPATHの配下になければ=on

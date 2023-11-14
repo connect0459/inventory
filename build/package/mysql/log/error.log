@@ -73,3 +73,48 @@
 2023-11-14T14:16:06.557941Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
 2023-11-14T14:16:06.558325Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
 2023-11-14T14:16:06.558693Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.
+2023-11-14T14:20:45.712817Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2023-11-14T14:20:45.712845Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2023-11-14T14:20:45.729055Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.35) starting as process 1
+2023-11-14T14:20:45.729087Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file '/usr/share/mysql/errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2023-11-14T14:20:45.745587Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+2023-11-14T14:20:45.813437Z 0 [Warning] [MY-000054] [Server] World-writable config file '/var/lib/mysql/auto.cnf' is ignored.
+2023-11-14T14:20:45.818175Z 0 [Warning] [MY-010107] [Server] World-writable config file '/var/lib/mysql/auto.cnf' has been removed.
+2023-11-14T14:20:45.820635Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 00475009-82f9-11ee-8bed-0242ac150002.
+2023-11-14T14:20:45.849487Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2023-11-14T14:20:45.858075Z 1 [Warning] [MY-012191] [InnoDB] Scan path 'ibdata' is ignored because it is a sub-directory of '/var/lib/mysql/
+2023-11-14T14:20:46.282264Z 1 [ERROR] [MY-012592] [InnoDB] Operating system error number 2 in a file operation.
+2023-11-14T14:20:46.282686Z 1 [ERROR] [MY-012593] [InnoDB] The error means the system cannot find the path specified.
+2023-11-14T14:20:46.283168Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
+2023-11-14T14:20:46.283788Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
+2023-11-14T14:20:46.284250Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.
+2023-11-14T14:20:55.388643Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2023-11-14T14:20:55.388672Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2023-11-14T14:20:55.400602Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.35) starting as process 1
+2023-11-14T14:20:55.400632Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file '/usr/share/mysql/errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2023-11-14T14:20:55.407422Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+2023-11-14T14:20:55.442810Z 0 [Warning] [MY-000054] [Server] World-writable config file '/var/lib/mysql/auto.cnf' is ignored.
+2023-11-14T14:20:55.445607Z 0 [Warning] [MY-010107] [Server] World-writable config file '/var/lib/mysql/auto.cnf' has been removed.
+2023-11-14T14:20:55.447285Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 06043afc-82f9-11ee-8bd3-0242ac150002.
+2023-11-14T14:20:55.475332Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2023-11-14T14:20:55.486968Z 1 [Warning] [MY-012191] [InnoDB] Scan path 'ibdata' is ignored because it is a sub-directory of '/var/lib/mysql/
+2023-11-14T14:20:55.981610Z 1 [ERROR] [MY-012592] [InnoDB] Operating system error number 2 in a file operation.
+2023-11-14T14:20:55.982417Z 1 [ERROR] [MY-012593] [InnoDB] The error means the system cannot find the path specified.
+2023-11-14T14:20:55.983313Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
+2023-11-14T14:20:55.983802Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
+2023-11-14T14:20:55.984355Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.
+2023-11-14T14:22:50.631082Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2023-11-14T14:22:50.631114Z 0 [Warning] [MY-011070] [Server] 'Disabling symbolic links using --skip-symbolic-links (or equivalent) is the default. Consider not using this option as it' is deprecated and will be removed in a future release.
+2023-11-14T14:22:50.640331Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.35) starting as process 1
+2023-11-14T14:22:50.640368Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file '/usr/share/mysql/errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2023-11-14T14:22:50.650517Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+2023-11-14T14:22:50.680810Z 0 [Warning] [MY-000054] [Server] World-writable config file '/var/lib/mysql/auto.cnf' is ignored.
+2023-11-14T14:22:50.682709Z 0 [Warning] [MY-010107] [Server] World-writable config file '/var/lib/mysql/auto.cnf' has been removed.
+2023-11-14T14:22:50.683796Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 4ab3ed01-82f9-11ee-8b79-0242ac160003.
+2023-11-14T14:22:50.698239Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2023-11-14T14:22:50.705949Z 1 [Warning] [MY-012191] [InnoDB] Scan path 'ibdata' is ignored because it is a sub-directory of '/var/lib/mysql/
+2023-11-14T14:22:51.185367Z 1 [ERROR] [MY-012592] [InnoDB] Operating system error number 2 in a file operation.
+2023-11-14T14:22:51.185850Z 1 [ERROR] [MY-012593] [InnoDB] The error means the system cannot find the path specified.
+2023-11-14T14:22:51.186265Z 1 [ERROR] [MY-012594] [InnoDB] If you are installing InnoDB, remember that you must create directories yourself, InnoDB does not create them.
+2023-11-14T14:22:51.186633Z 1 [ERROR] [MY-012646] [InnoDB] File ibdata/ibdata1: 'open' returned OS error 71. Cannot continue operation
+2023-11-14T14:22:51.187028Z 1 [ERROR] [MY-012981] [InnoDB] Cannot continue operation.

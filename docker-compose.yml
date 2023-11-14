@@ -30,6 +30,8 @@ services: # services配下に各コンテナの情報を記載する
       - ./build/package/mysql/init:/docker-entrypoint-initdb.d
       - ./build/package/mysql/log:/var/log/mysql
       - ./build/package/mysql/conf.d:/etc/mysql/conf.d
+    ports: # 外部に公開するポートを指定する
+      - 3309:3309
     tty: true
     networks:
       - default
