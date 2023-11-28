@@ -1,0 +1,2164 @@
+openapi: 3.0.0
+info:
+  title: omu-rest
+  description: 'Laravel製RESTful APIサーバー。著者: [connect0459](https://github.com/connect0459)'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000/api'
+    description: ローカルホスト
+  -
+    url: 'https://example.studyfortwo.org/omu-rest/public/api'
+    description: ロリポップ！レンタルサーバー
+paths:
+  '/books/query/{type_branch_id}':
+    get:
+      tags:
+        - books
+      summary: 検索クエリによる支部在庫の表示
+      description: ANDおよびOR演算子を使用して書籍を検索します。取得するレコード数を指定も可能。
+      operationId: 14d04cd3a807843d383b87ccfca3da7b
+      parameters:
+        -
+          name: type_branch_id
+          in: path
+          description: 支部ID
+          required: true
+          schema:
+            type: integer
+        -
+          name: q
+          in: query
+          description: 検索キーワードで構成されるクエリ（ANDおよびOR演算子を使用可能）
+          required: false
+          schema:
+            type: string
+        -
+          name: limit
+          in: query
+          description: 取得するレコード数
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    books_info:
+                      $ref: '#/components/schemas/BookInfo'
+                    books_stocks:
+                      $ref: '#/components/schemas/BookStock'
+                  type: object
+        404:
+          description: 該当する書籍が見つからない場合のレスポンス
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 該当する書籍が見つかりません。
+                type: object
+  '/books/column/{type_branch_id}':
+    get:
+      tags:
+        - books
+      summary: カラム指定による支部在庫の表示
+      description: 指定されたbooks_infoテーブルのカラム名と値を使用して書籍を検索
+      operationId: 24c56c274fc27bd118b5dfc62fbf0c3e
+      parameters:
+        -
+          name: type_branch_id
+          in: path
+          description: 支部ID
+          required: true
+          schema:
+            type: integer
+        -
+          name: id
+          in: query
+          description: idカラム
+          required: false
+          schema:
+            type: string
+        -
+          name: title
+          in: query
+          description: titleカラム
+          required: false
+          schema:
+            type: string
+        -
+          name: author
+          in: query
+          description: authorカラム
+          required: false
+          schema:
+            type: string
+        -
+          name: publisher
+          in: query
+          description: publisherカラム
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          description: descriptionカラム
+          required: false
+          schema:
+            type: string
+        -
+          name: type_genre_id
+          in: query
+          description: type_genre_idカラム
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 成功した場合のレスポンス
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    books_info:
+                      $ref: '#/components/schemas/BookInfo'
+                    books_stocks:
+                      $ref: '#/components/schemas/BookStock'
+                  type: object
+        404:
+          description: 該当する書籍が見つからない場合のレスポンス
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 該当する書籍が見つかりません。
+                type: object
+  /books_info:
+    get:
+      tags:
+        - books_info
+      summary: 書籍情報のリストを取得する
+      operationId: 2f9e356b188781492d6410beee2297c6
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookInfo'
+    post:
+      tags:
+        - books_info
+      summary: 新しい書籍情報を作成する
+      operationId: 0c3283a323f1a4a3e81dbd5915be7518
+      requestBody:
+        description: BookInfoのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInfo'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/BookInfo'
+  '/books_info/{id}':
+    get:
+      tags:
+        - books_info
+      summary: 特定のIDで書籍情報を取得する
+      operationId: aefd1f8354eca94d504850ef936b3fb4
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍情報のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookInfo'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - books_info
+      summary: 特定のIDで書籍情報を更新する
+      operationId: 57b90f97a8a076e500862e557256c7aa
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍情報のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: BookInfoのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInfo'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/BookInfo'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - books_info
+      summary: 特定のIDで書籍情報を削除する
+      operationId: e98599424d7afa9076f6f9f4df52e4e4
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍情報のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /books_stocks:
+    get:
+      tags:
+        - books_stocks
+      summary: 書籍在庫のリストを取得する
+      operationId: 46c90e16b416e254ed79948864ae87aa
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookStock'
+    post:
+      tags:
+        - books_stocks
+      summary: 新しい書籍在庫を作成する
+      operationId: ecc649eea287e26856100c11f96bb3b9
+      requestBody:
+        description: BookStockのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookStock'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/BookStock'
+  '/books_stocks/{id}':
+    get:
+      tags:
+        - books_stocks
+      summary: 特定のIDで書籍在庫を取得する
+      operationId: d1c6d70f9a35791050b5da811f1abda1
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍在庫のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookStock'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - books_stocks
+      summary: 特定のIDで書籍在庫を更新する
+      operationId: dc7eef146e782e14cddc076176ff04c4
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍在庫のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: BookStockのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookStock'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/BookStock'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - books_stocks
+      summary: 特定のIDで書籍在庫を削除する
+      operationId: 45a5cfdaf4972cd73313133082ca0d26
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍在庫のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /contacts:
+    get:
+      tags:
+        - contacts
+      summary: 連絡先のリストを取得する
+      operationId: e670331f5da6af785062a857ec92def2
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+    post:
+      tags:
+        - contacts
+      summary: 新しい連絡先を作成する
+      operationId: 77b53a0b0cb97bf04eafa192e4cbac4e
+      requestBody:
+        description: 連絡先のデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/Contact'
+  '/contacts/{id}':
+    get:
+      tags:
+        - contacts
+      summary: 特定のIDで連絡先を取得する
+      operationId: 4c4e002507e3a53acc022b210aad20ac
+      parameters:
+        -
+          name: id
+          in: path
+          description: 連絡先のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - contacts
+      summary: 特定のIDで連絡先を更新する
+      operationId: adc814a54ff3a1fdc424293b19ffe8a7
+      parameters:
+        -
+          name: id
+          in: path
+          description: 連絡先のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 連絡先のデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/Contact'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - contacts
+      summary: 特定のIDで連絡先を削除する
+      operationId: bc8b0b91abd89481c321fcdb966dc355
+      parameters:
+        -
+          name: id
+          in: path
+          description: 連絡先のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /news:
+    get:
+      tags:
+        - news
+      summary: ニュースのリストを取得する
+      operationId: 21b84dbdd75fd20b9c9ddb9b9e68f0a1
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'
+    post:
+      tags:
+        - news
+      summary: 新しいニュースを作成する
+      operationId: d6a12c2e3b4ea9ab588ba9b1cb14748f
+      requestBody:
+        description: ニュースのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/News'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/News'
+  '/news/{id}':
+    get:
+      tags:
+        - news
+      summary: 特定のIDでニュースを取得する
+      operationId: eb815321a4dd395639d4aeef25d9a45c
+      parameters:
+        -
+          name: id
+          in: path
+          description: ニュースのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - news
+      summary: 特定のIDでニュースを更新する
+      operationId: 25ea273290c6cb379ab85e08ff4fadfc
+      parameters:
+        -
+          name: id
+          in: path
+          description: ニュースのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ニュースのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/News'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/News'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - news
+      summary: 特定のIDでニュースを削除する
+      operationId: bbe79a918bfbb58bc46ed74b43e9b986
+      parameters:
+        -
+          name: id
+          in: path
+          description: ニュースのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /orders_customers:
+    get:
+      tags:
+        - orders_customers
+      summary: 注文顧客のリストを取得する
+      operationId: 5217a452519ec6ef916c6a3e2f4070dc
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderCustomer'
+    post:
+      tags:
+        - orders_customers
+      summary: 新しい注文顧客を作成する
+      operationId: 75e0485900f170d2424fdeadf59b0752
+      requestBody:
+        description: OrderCustomerのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCustomer'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderCustomer'
+  '/orders_customers/{id}':
+    get:
+      tags:
+        - orders_customers
+      summary: 特定のIDで注文顧客を取得する
+      operationId: 4dd012aac3be308644f1e2e152f92c19
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文顧客のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCustomer'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - orders_customers
+      summary: 特定のIDで注文顧客を更新する
+      operationId: a0a94057f0311e2193b5897f80221470
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文顧客のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: OrderCustomerのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCustomer'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderCustomer'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - orders_customers
+      summary: 特定のIDで注文顧客を削除する
+      operationId: 5608eff2ef8984e0b7447765f27595aa
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文顧客のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /orders_items:
+    get:
+      tags:
+        - orders_items
+      summary: 注文商品のリストを取得する
+      operationId: 89fde6ad08076b992c521fb7c680e29e
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderItem'
+    post:
+      tags:
+        - orders_items
+      summary: 新しい注文商品を作成する
+      operationId: b2909cc3849277b1d5345ccb4205c71d
+      requestBody:
+        description: OrderItemのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderItem'
+  '/orders_items/{id}':
+    get:
+      tags:
+        - orders_items
+      summary: 特定のIDで注文商品を取得する
+      operationId: 0b2a7a56e7d5c2c49b7d11bdb0f48f5c
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文商品のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - orders_items
+      summary: 特定のIDで注文商品を更新する
+      operationId: 8bee2e95aba24db3af9b2bc7b5a53f0d
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文商品のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: OrderItemのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderItem'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - orders_items
+      summary: 特定のIDで注文商品を削除する
+      operationId: 6d397dbc3afd3a3f44e4cc08820e0921
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文商品のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /orders_payments:
+    get:
+      tags:
+        - orders_payments
+      summary: 注文支払いのリストを取得する
+      operationId: 52140bdaf9965edfc692b030a9f1898f
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderPayment'
+    post:
+      tags:
+        - orders_payments
+      summary: 新しい注文支払いを作成する
+      operationId: 231e4438ab66e1f3ba4205adf67e0df7
+      requestBody:
+        description: OrderPaymentのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPayment'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderPayment'
+  '/orders_payments/{id}':
+    get:
+      tags:
+        - orders_payments
+      summary: 特定のIDで注文支払いを取得する
+      operationId: ed63e750658440b279ee8040dc02aba5
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文支払いのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPayment'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - orders_payments
+      summary: 特定のIDで注文支払いを更新する
+      operationId: e7043bcd7e8fc712b2e3a6516f1b8ca8
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文支払いのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: OrderPaymentのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPayment'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/OrderPayment'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - orders_payments
+      summary: 特定のIDで注文支払いを削除する
+      operationId: 41c8a438add65c3a1a6f1f7f0efeeea3
+      parameters:
+        -
+          name: id
+          in: path
+          description: 注文支払いのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /types_branches:
+    get:
+      tags:
+        - types_branches
+      summary: 支部のリストを取得する
+      operationId: 97af74bfee220c89b0c0c5700fd29b99
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeBranch'
+    post:
+      tags:
+        - types_branches
+      summary: 新しい支部を作成する
+      operationId: ce050dbe8f9dcf8a1411581387496db6
+      requestBody:
+        description: TypeBranchのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeBranch'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeBranch'
+  '/types_branches/{id}':
+    get:
+      tags:
+        - types_branches
+      summary: 特定のIDで支部を取得する
+      operationId: e33a8a3abd11b078e164c05b62246e43
+      parameters:
+        -
+          name: id
+          in: path
+          description: 支部のID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeBranch'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - types_branches
+      summary: 特定のIDで支部を更新する
+      operationId: 98726087136b83ce1a215021e6eb76de
+      parameters:
+        -
+          name: id
+          in: path
+          description: 支部のID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: TypeBranchのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeBranch'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeBranch'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - types_branches
+      summary: 特定のIDで支部を削除する
+      operationId: 4f16c2a000161aa01c071b5beabaa1f2
+      parameters:
+        -
+          name: id
+          in: path
+          description: 支部のID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /types_genres:
+    get:
+      tags:
+        - types_genres
+      summary: 書籍のジャンルのリストを取得する
+      operationId: 6e1cdb613ad44750c97159198eac2c2e
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeGenre'
+    post:
+      tags:
+        - types_genres
+      summary: 新しい書籍のジャンルを作成する
+      operationId: 5876eb953745b47325ca0277455f8885
+      requestBody:
+        description: TypeGenreのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeGenre'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeGenre'
+  '/types_genres/{id}':
+    get:
+      tags:
+        - types_genres
+      summary: 特定のIDで書籍のジャンルを取得する
+      operationId: 70509fad3bfe1e67a2caf35fe9ddcd88
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍のジャンルのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeGenre'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - types_genres
+      summary: 特定のIDで書籍のジャンルを更新する
+      operationId: 32a2a32ec50d514a9cc3ca51fb2d6578
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍のジャンルのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: TypeGenreのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeGenre'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeGenre'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - types_genres
+      summary: 特定のIDで書籍のジャンルを削除する
+      operationId: 8ecb93fe6d9f820f901f57aaca0c8650
+      parameters:
+        -
+          name: id
+          in: path
+          description: 書籍のジャンルのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /types_orders_states:
+    get:
+      tags:
+        - types_orders_states
+      summary: 商品ステータスのリストを取得する
+      operationId: 629ceee33a2f3da61afd7c4b1e462219
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeOrderState'
+    post:
+      tags:
+        - types_orders_states
+      summary: 新しい商品ステータスを作成する
+      operationId: 02b2536d5626b2b69c4eb31a6420a222
+      requestBody:
+        description: TypeOrderStateのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeOrderState'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeOrderState'
+  '/types_orders_states/{id}':
+    get:
+      tags:
+        - types_orders_states
+      summary: 特定のIDで商品ステータスを取得する
+      operationId: f264dd50d2da88f988e3a8e7c592d301
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_orders_statesのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeOrderState'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - types_orders_states
+      summary: 特定のIDで商品ステータスを更新する
+      operationId: f8e23ef739c0f341106a112ecde4ad7e
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_orders_statesのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: TypeOrderStateのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeOrderState'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeOrderState'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - types_orders_states
+      summary: 特定のIDで商品ステータスを削除する
+      operationId: 035007899d1aeec37cb670bb3c8a4865
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_orders_statesのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /types_payments:
+    get:
+      tags:
+        - types_payments
+      summary: 支払い方法のリストを取得する
+      operationId: eaf58772b330330fc4d41fc0e8b3b40f
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypePayment'
+    post:
+      tags:
+        - types_payments
+      summary: 新しい支払い方法を作成する
+      operationId: e757690d6c96a1463bd2f8fce9b45b12
+      requestBody:
+        description: TypePaymentのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypePayment'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypePayment'
+  '/types_payments/{id}':
+    get:
+      tags:
+        - types_payments
+      summary: 特定のIDで支払い方法を取得する
+      operationId: 15eb6d8e179f295d0df87be744c28155
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_paymentsのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypePayment'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - types_payments
+      summary: 特定のIDで支払い方法を更新する
+      operationId: 9dd9af2fc19d3f1e1688cf1b0528218b
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_paymentsのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: TypePaymentのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypePayment'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypePayment'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - types_payments
+      summary: 特定のIDで支払い方法を削除する
+      operationId: e83a182945610fbcf279008b97e0de46
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_paymentsのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /types_receives:
+    get:
+      tags:
+        - types_receives
+      summary: 受取り方法のリストを取得する
+      operationId: 0417ea5e25bfb8fd8ee49856f17016fa
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeReceive'
+    post:
+      tags:
+        - types_receives
+      summary: 新しい受取り方法を作成する
+      operationId: 50090e82cc0eacb3d7b613a9ff868b17
+      requestBody:
+        description: TypeReceiveのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeReceive'
+      responses:
+        201:
+          description: リソースが作成されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeReceive'
+  '/types_receives/{id}':
+    get:
+      tags:
+        - types_receives
+      summary: 特定のIDで受取り方法を取得する
+      operationId: f84e4922d0eeb8c8d92bcbf48af06a74
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_receivesのID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 成功した応答
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeReceive'
+        404:
+          description: リソースが見つかりません
+    put:
+      tags:
+        - types_receives
+      summary: 特定のIDで受取り方法を更新する
+      operationId: c1543df8694acb50827b80eb08cd5b4a
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_receivesのID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: TypeReceiveのデータ
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeReceive'
+      responses:
+        200:
+          description: リソースが更新されました
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  -
+                    $ref: '#/components/schemas/TypeReceive'
+        404:
+          description: リソースが見つかりません
+    delete:
+      tags:
+        - types_receives
+      summary: 特定のIDで受取り方法を削除する
+      operationId: b1a600a99289da180209079339415e49
+      parameters:
+        -
+          name: id
+          in: path
+          description: types_receivesのID
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: リソースが削除されました
+        404:
+          description: リソースが見つかりません
+  /users:
+    get:
+      tags:
+        - users
+      summary: ユーザー一覧取得
+      description: ユーザー一覧を取得します。
+      operationId: 7e2f5799553ec93c9c43e2a58490d447
+      responses:
+        200:
+          description: 成功した場合のレスポンス
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      security:
+        -
+          BearerAuth: []
+    post:
+      tags:
+        - users
+      summary: ユーザー作成
+      description: 新しいユーザーを作成します。
+      operationId: a1fce870c566eb5fc0cf3178ec5d2fed
+      requestBody:
+        description: ユーザー情報
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: 成功した場合のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+        -
+          BearerAuth: []
+  '/users/{id}':
+    get:
+      tags:
+        - users
+      summary: ユーザー詳細取得
+      description: 指定したユーザーの詳細情報を取得します。
+      operationId: 910a0c7cf580e1c605648d82a4e57f46
+      parameters:
+        -
+          name: id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 成功した場合のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 該当するユーザーが見つからない場合のレスポンス
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found'
+                type: object
+      security:
+        -
+          BearerAuth: []
+    put:
+      tags:
+        - users
+      summary: ユーザー更新
+      description: 指定したユーザーの情報を更新します。
+      operationId: ddfe232db1870b82493bf8bd25596d37
+      parameters:
+        -
+          name: id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: 更新するユーザー情報
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: 成功した場合のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 該当するユーザーが見つからない場合のレスポンス
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found'
+                type: object
+      security:
+        -
+          BearerAuth: []
+    delete:
+      tags:
+        - users
+      summary: ユーザー削除
+      description: 指定したユーザーを削除します。
+      operationId: 43dd20becb1f47444e484cbb18ce345c
+      parameters:
+        -
+          name: id
+          in: path
+          description: ユーザーID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: 成功した場合のレスポンス
+        404:
+          description: 該当するユーザーが見つからない場合のレスポンス
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found'
+                type: object
+      security:
+        -
+          BearerAuth: []
+components:
+  schemas:
+    BookInfo:
+      description: 'BookInfo Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        isbn:
+          description: 'ISBN-13 or ISBN-10'
+          type: string
+          format: string
+          example: '9784908434266'
+        title:
+          description: タイトル
+          type: string
+          format: string
+          example: これだけは知っておこう!情報リテラシー
+        author:
+          description: 著者
+          type: string
+          format: string
+          example: noa出版
+        publisher:
+          description: 出版社
+          type: string
+          format: string
+          example: noa出版
+        description:
+          description: 説明
+          type: string
+          format: string
+          example: ハードウェア、ソフトウェア、ネットワーク、セキュリティ、情報モラルまで知っておきたい基礎知識が1冊にわかりやすくまとまっているテキストです。
+        type_genre_id:
+          description: 外部キー制約（types_genresテーブル）
+          type: integer
+          format: int64
+          example: '1'
+        list_price:
+          description: 定価
+          type: integer
+          format: int64
+          example: '1000'
+        sale_price:
+          description: 販売額
+          type: integer
+          format: int64
+          example: '500'
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    BookStock:
+      description: 'BookStock Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type_branch_id:
+          description: 外部キー制約（types_branchesテーブル）
+          type: integer
+          format: int64
+          example: '1'
+        book_info_id:
+          description: 外部キー制約（books_infoテーブル）
+          type: integer
+          format: int64
+          example: '1'
+        stock:
+          description: 未販売の在庫数
+          type: integer
+          format: int64
+          example: '4'
+        order:
+          description: 未処理の予約数
+          type: integer
+          format: int64
+          example: '1'
+        sold:
+          description: 販売済みの在庫数
+          type: integer
+          format: int64
+          example: '1'
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    Contact:
+      description: 'Contact Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        unique:
+          description: お問い合わせ番号として相手に送信する一意な値
+          type: string
+          format: string
+          example: 230C001
+        name:
+          description: 名前
+          type: string
+          format: string
+          example: SFT太郎
+        belong:
+          description: 所属
+          type: string
+          format: string
+          example: SFT大学
+        email:
+          description: メールアドレス
+          type: string
+          format: string
+          example: example@studyfortwo.org
+        summary:
+          description: 概要
+          type: string
+          format: string
+          example: メンバー加入について
+        detail:
+          description: 詳細
+          type: string
+          format: string
+          example: 活動に興味があるのですが、この時期からでも入れますか？
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    News:
+      description: 'News Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        title:
+          description: ニュースのタイトル
+          type: string
+          format: string
+          example: サイトの稼働が開始しました。
+        detail:
+          description: ニュースの記事
+          type: string
+          format: string
+          example: 2023年6月20日からサイトを稼働しております。
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    OrderCustomer:
+      description: 'OrderCustomer Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type_branch_id:
+          description: 支部番号（types_branchesテーブルからの外部キー制約）
+          type: integer
+          format: int64
+          example: '1'
+        numbering:
+          description: 整理番号
+          type: string
+          format: string
+          example: 231B001
+        name1:
+          description: 名前
+          type: string
+          format: string
+          example: 中岡暉
+        name2:
+          description: 'フリガナ or ローマ字'
+          type: string
+          format: string
+          example: ナカオカアキラ
+        university:
+          description: 大学
+          type: string
+          format: string
+          example: ○○大学
+        grade:
+          description: 学年
+          type: string
+          format: string
+          example: 1年
+        belong:
+          description: 学科など
+          type: string
+          format: string
+          example: 工学部
+        email:
+          description: メールアドレス
+          type: string
+          format: string
+          example: example@gmail.com
+        total:
+          description: 請求合計金額
+          type: integer
+          format: int64
+          example: '1000'
+        type_receive_id:
+          description: 受取り方法分類id（types_receivesテーブルからの外部キー制約）
+          type: integer
+          format: int64
+          example: '1'
+        receive_date:
+          description: 受取り日時
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        type_payment_id:
+          description: 支払い方法分類id（types_paymentsテーブルからの外部キー制約）
+          type: integer
+          format: int64
+          example: '1'
+        payment_due_date:
+          description: 支払い期限
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        notes:
+          description: 備考・質問
+          type: string
+          format: string
+          example: 受け取り日時は後から変更できますか？
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    OrderItem:
+      description: 'OrderItem Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        order_customer_id:
+          description: 外部キー制約（orders_customersテーブル）
+          type: integer
+          format: int64
+          example: '1'
+        numbering:
+          description: 整理番号
+          type: string
+          format: string
+          example: 231B001
+        type_order_state_id:
+          description: 予約の処理状態を表すステータス。types_orders_statesテーブルから取得
+          type: integer
+          format: int64
+          example: '1'
+        book_info_id:
+          description: 外部キー制約（books_info）
+          type: integer
+          format: int64
+          example: '1'
+        isbn:
+          description: 'ISBN-13 or ISBN-10'
+          type: string
+          format: string
+          example: '9784908434266'
+        title:
+          description: タイトル
+          type: string
+          format: string
+          example: これだけは知っておこう!情報リテラシー
+        sale_price:
+          description: 販売額
+          type: integer
+          format: int64
+          example: '500'
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    OrderPayment:
+      description: 'OrderPayment Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        order_customer_id:
+          description: 外部キー制約（orders_customersテーブル）
+          type: integer
+          format: int64
+          example: '1'
+        numbering:
+          description: 整理番号
+          type: string
+          format: string
+          example: 231B001
+        subtotal:
+          description: 教科書代の小計
+          type: integer
+          format: int64
+          example: '1000'
+        postage:
+          description: 送料
+          type: integer
+          format: int64
+          example: '400'
+        fee:
+          description: 手数料
+          type: integer
+          format: int64
+          example: '100'
+        is_paid:
+          description: 支払い済みか
+          type: boolean
+          format: boolean
+          example: 'true'
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    TypeBranch:
+      description: 'TypeBranch Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type:
+          description: 支部名
+          type: string
+          format: string
+          example: ○○大学
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    TypeGenre:
+      description: 'TypeGenre Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type:
+          description: ジャンル名
+          type: string
+          format: string
+          example: ○○大学
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    TypeOrderState:
+      description: 'TypeOrderState Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type:
+          description: 予約、販売済み、キャンセル、返品などのステータス
+          type: string
+          format: string
+          example: 予約
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    TypePayment:
+      description: 'TypePayment Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type:
+          description: 支払い方法
+          type: string
+          format: string
+          example: 現金
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    TypeReceive:
+      description: 'TypeReceive Model'
+      properties:
+        id:
+          description: ID
+          type: integer
+          format: int64
+          example: '1'
+        type:
+          description: 受取り方法
+          type: string
+          format: string
+          example: 露店
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+    User:
+      description: 'User Model'
+      properties:
+        id:
+          description: ユーザーID
+          type: integer
+          format: int64
+          example: '1'
+        name:
+          description: ユーザー名
+          type: string
+          format: string
+          example: 'John Doe'
+        auth_scope:
+          description: 認証スコープ
+          type: string
+          format: string
+          example: admin
+        email:
+          description: メールアドレス
+          type: string
+          format: email
+          example: john.doe@example.com
+        password:
+          description: パスワード
+          type: string
+          format: password
+          example: password123
+        email_verified_at:
+          description: メール認証済み日時
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        remember_token:
+          description: Rememberトークン
+          type: string
+          format: string
+          example: randomtoken123
+        created_at:
+          description: レコード作成日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+        updated_at:
+          description: レコード更新日
+          type: string
+          format: date-time
+          example: '2023-06-20T21:20:14.000000Z'
+      type: object
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      name: api_token
+      in: header

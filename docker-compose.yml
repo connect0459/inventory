@@ -12,7 +12,7 @@ services: # services配下に各コンテナの情報を記載する
       - ./.env
     environment:
       - TZ=Asia/Tokyo
-      - OPENAPI_SPEC=./api/openapi.yml
+      - OPENAPI_SPEC=./api/api-docs.yaml
     tty: true # コンテナの永続化
     ports: # 外部に公開するポートを指定する
       - 7000:7000
