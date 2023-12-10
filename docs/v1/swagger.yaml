@@ -1,0 +1,644 @@
+basePath: /api/v1
+definitions:
+  model.BookInfo:
+    properties:
+      author:
+        description: |-
+          書籍の著者
+          in: body
+          required: true
+        example: noa出版
+        type: string
+      created_at:
+        description: |-
+          レコードの作成日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+      deleted_at:
+        description: |-
+          レコードの削除日時
+          in: body
+          required: false
+        type: string
+      description:
+        description: |-
+          書籍の説明
+          in: body
+          required: false
+        example: ハードウェア、ソフトウェア、ネットワーク、セキュリティ、情報モラルまで知っておきたい基礎知識が1冊に分かりやすくまとまっているテキストです。
+        type: string
+      genre:
+        description: |-
+          ジャンルID
+          in: body
+          required: true
+        example: "1"
+        type: string
+      id:
+        description: |-
+          ID
+          in: body
+          required: true
+        example: 1
+        type: integer
+      isbn:
+        description: |-
+          ISBN
+          in: body
+          required: true
+        example: 9784908434266
+        type: integer
+      list_price:
+        description: |-
+          書籍の定価
+          in: body
+          required: true
+        example: 1000
+        type: integer
+      publisher:
+        description: |-
+          書籍の出版社
+          in: body
+          required: true
+        example: noa出版
+        type: string
+      title:
+        description: |-
+          書籍のタイトル
+          in: body
+          required: true
+        example: これだけは知っておこう!情報リテラシー
+        type: string
+      updated_at:
+        description: |-
+          レコードの更新日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+    type: object
+  model.BookStock:
+    properties:
+      book_info_id:
+        description: |-
+          BookInfoの書籍ID
+          in: body
+          required: true
+          example: 1
+        example: 1
+        type: integer
+      created_at:
+        description: |-
+          レコードの作成日時
+          in: body
+          required: true
+          example: "2023-06-20T21:20:14.000000Z"
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+      deleted_at:
+        description: |-
+          レコードの削除日時
+          in: body
+          required: false
+        type: string
+      id:
+        description: |-
+          ID
+          in: body
+          required: true
+          example: 1
+        example: 1
+        type: integer
+      order:
+        description: |-
+          予約総数
+          in: body
+          required: true
+          example: 1
+        example: 1
+        type: integer
+      sale_price:
+        description: |-
+          書籍の支部ごとの販売価格
+          in: body
+          required: true
+          example: 500
+        example: 500
+        type: integer
+      sold:
+        description: |-
+          販売総数
+          in: body
+          required: true
+          example: 1
+        example: 1
+        type: integer
+      stock:
+        description: |-
+          在庫総数
+          in: body
+          required: true
+          example: 4
+        example: 4
+        type: integer
+      type_branch_id:
+        description: |-
+          TypeBranchの支部ID
+          in: body
+          required: true
+          example: 1
+        example: 1
+        type: integer
+      updated_at:
+        description: |-
+          レコードの更新日時
+          in: body
+          required: true
+          example: "2023-06-20T21:20:14.000000Z"
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+    type: object
+  model.TypeBranch:
+    properties:
+      created_at:
+        description: |-
+          レコードの作成日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+      deleted_at:
+        description: |-
+          レコードの削除日時
+          in: body
+          required: false
+        type: string
+      id:
+        description: |-
+          支部のID
+          in: body
+          required: true
+        example: 1
+        type: integer
+      type:
+        description: |-
+          支部の名前
+          in: body
+          required: true
+        example: ○○大学
+        type: string
+      updated_at:
+        description: |-
+          レコードの更新日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+    type: object
+  model.TypeGenre:
+    properties:
+      created_at:
+        description: |-
+          レコードの作成日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+      deleted_at:
+        description: |-
+          レコードの削除日時
+          in: body
+          required: false
+        type: string
+      id:
+        description: |-
+          ジャンルID
+          in: body
+          required: true
+        example: 1
+        type: integer
+      type:
+        description: |-
+          ジャンル名
+          in: body
+          required: true
+        example: 情報学
+        type: string
+      updated_at:
+        description: |-
+          レコードの更新日時
+          in: body
+          required: true
+        example: "2023-06-20T21:20:14.000000Z"
+        type: string
+    type: object
+host: localhost:7000
+info:
+  contact:
+    email: connect0459@github.com
+    name: API Support
+  description: 在庫管理を行うAPIサーバー
+  title: inventory_control API
+  version: "1.0"
+paths:
+  /books:
+    get:
+      description: 全ての書籍情報を取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.BookInfo'
+            type: array
+      summary: 全ての書籍情報を取得
+      tags:
+      - books_info
+    post:
+      consumes:
+      - application/json
+      description: 新しい書籍情報の作成
+      parameters:
+      - description: Book Info
+        in: body
+        name: bookInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.BookInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BookInfo'
+      summary: 書籍情報を作成
+      tags:
+      - books_info
+  /books/{id}:
+    delete:
+      description: IDによる書籍情報の削除
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: BookInfo is deleted
+          schema:
+            type: string
+      summary: 書籍情報を削除
+      tags:
+      - books_info
+    get:
+      description: IDによる書籍情報の取得
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BookInfo'
+      summary: 書籍情報を取得
+      tags:
+      - books_info
+    put:
+      consumes:
+      - application/json
+      description: IDによる書籍情報の更新
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book Info
+        in: body
+        name: bookInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.BookInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BookInfo'
+      summary: 書籍情報を更新
+      tags:
+      - books_info
+  /books_stocks:
+    get:
+      description: 全ての書籍在庫情報を取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.BookStock'
+            type: array
+      summary: 書籍在庫のリストを取得する
+      tags:
+      - books_stocks
+    post:
+      consumes:
+      - application/json
+      description: 新しい書籍在庫情報の作成
+      parameters:
+      - description: 書籍在庫情報
+        in: body
+        name: BookStock
+        required: true
+        schema:
+          $ref: '#/definitions/model.BookStock'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.BookStock'
+      summary: 新しい書籍在庫を作成する
+      tags:
+      - books_stocks
+  /books_stocks/{id}:
+    delete:
+      description: IDによる書籍在庫情報の削除
+      parameters:
+      - description: 書籍在庫のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 書籍在庫情報が削除されました
+          schema:
+            type: string
+      summary: 特定のIDで書籍在庫を削除する
+      tags:
+      - books_stocks
+    get:
+      description: IDによる書籍在庫情報の取得
+      parameters:
+      - description: 書籍在庫のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BookStock'
+      summary: 特定のIDで書籍在庫を取得する
+      tags:
+      - books_stocks
+    put:
+      consumes:
+      - application/json
+      description: IDによる書籍在庫情報の更新
+      parameters:
+      - description: 書籍在庫のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 書籍在庫情報
+        in: body
+        name: BookStock
+        required: true
+        schema:
+          $ref: '#/definitions/model.BookStock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BookStock'
+      summary: 特定のIDで書籍在庫を更新する
+      tags:
+      - books_stocks
+  /types_branches:
+    get:
+      description: 全ての支部情報を取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.TypeBranch'
+            type: array
+      summary: 支部のリストを取得する
+      tags:
+      - types_branches
+    post:
+      consumes:
+      - application/json
+      description: 新しい支部情報の作成
+      parameters:
+      - description: 支部情報
+        in: body
+        name: TypeBranch
+        required: true
+        schema:
+          $ref: '#/definitions/model.TypeBranch'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.TypeBranch'
+      summary: 新しい支部を作成する
+      tags:
+      - types_branches
+  /types_branches/{id}:
+    delete:
+      description: IDによる支部情報の削除
+      parameters:
+      - description: 支部のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: 支部情報が削除されました
+          schema:
+            type: string
+      summary: 特定のIDで支部を削除する
+      tags:
+      - types_branches
+    get:
+      description: IDによる支部情報の取得
+      parameters:
+      - description: 支部のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TypeBranch'
+      summary: 特定のIDで支部を取得する
+      tags:
+      - types_branches
+    put:
+      consumes:
+      - application/json
+      description: IDによる支部情報の更新
+      parameters:
+      - description: 支部のID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 支部情報
+        in: body
+        name: TypeBranch
+        required: true
+        schema:
+          $ref: '#/definitions/model.TypeBranch'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TypeBranch'
+      summary: 特定のIDで支部を更新する
+      tags:
+      - types_branches
+  /types_genres:
+    get:
+      description: 全てのジャンル情報を取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.TypeGenre'
+            type: array
+      summary: ジャンルのリストを取得する
+      tags:
+      - types_genres
+    post:
+      consumes:
+      - application/json
+      description: 新しいジャンル情報の作成
+      parameters:
+      - description: ジャンル情報
+        in: body
+        name: TypeGenre
+        required: true
+        schema:
+          $ref: '#/definitions/model.TypeGenre'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.TypeGenre'
+      summary: 新しいジャンルを作成する
+      tags:
+      - types_genres
+  /types_genres/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: IDによるジャンル情報の削除
+      parameters:
+      - description: ジャンルのID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ジャンル情報が削除されました
+          schema:
+            type: string
+      summary: 特定のIDでジャンルを削除する
+      tags:
+      - types_genres
+    get:
+      description: IDによるジャンル情報の取得
+      parameters:
+      - description: ジャンルのID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TypeGenre'
+      summary: 特定のIDでジャンルを取得する
+      tags:
+      - types_genres
+    put:
+      consumes:
+      - application/json
+      description: IDによるジャンル情報の更新
+      parameters:
+      - description: ジャンルのID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: ジャンル情報
+        in: body
+        name: TypeGenre
+        required: true
+        schema:
+          $ref: '#/definitions/model.TypeGenre'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.TypeGenre'
+      summary: 特定のIDでジャンルを更新する
+      tags:
+      - types_genres
+swagger: "2.0"

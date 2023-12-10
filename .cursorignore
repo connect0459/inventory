@@ -1,6 +1,5 @@
-# .envファイル
-.env
+# config.json
+config.json
 
 # mysqlの永続化用マウントディレクトリ
 build/package/mysql/data/*
-!build/package/mysql/data/.gitkeep

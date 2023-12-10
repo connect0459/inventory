@@ -1,0 +1,792 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "在庫管理を行うAPIサーバー",
+        "title": "inventory_control API",
+        "contact": {
+            "name": "API Support",
+            "email": "connect0459@github.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:7000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/books": {
+            "get": {
+                "description": "全ての書籍情報を取得する",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_info"
+                ],
+                "summary": "全ての書籍情報を取得",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.BookInfo"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新しい書籍情報の作成",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_info"
+                ],
+                "summary": "書籍情報を作成",
+                "parameters": [
+                    {
+                        "description": "Book Info",
+                        "name": "bookInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BookInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "description": "IDによる書籍情報の取得",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_info"
+                ],
+                "summary": "書籍情報を取得",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookInfo"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "IDによる書籍情報の更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_info"
+                ],
+                "summary": "書籍情報を更新",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Book Info",
+                        "name": "bookInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BookInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookInfo"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "IDによる書籍情報の削除",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_info"
+                ],
+                "summary": "書籍情報を削除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "BookInfo is deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/books_stocks": {
+            "get": {
+                "description": "全ての書籍在庫情報を取得する",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_stocks"
+                ],
+                "summary": "書籍在庫のリストを取得する",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.BookStock"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新しい書籍在庫情報の作成",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_stocks"
+                ],
+                "summary": "新しい書籍在庫を作成する",
+                "parameters": [
+                    {
+                        "description": "書籍在庫情報",
+                        "name": "BookStock",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BookStock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookStock"
+                        }
+                    }
+                }
+            }
+        },
+        "/books_stocks/{id}": {
+            "get": {
+                "description": "IDによる書籍在庫情報の取得",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_stocks"
+                ],
+                "summary": "特定のIDで書籍在庫を取得する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "書籍在庫のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookStock"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "IDによる書籍在庫情報の更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_stocks"
+                ],
+                "summary": "特定のIDで書籍在庫を更新する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "書籍在庫のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "書籍在庫情報",
+                        "name": "BookStock",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BookStock"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BookStock"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "IDによる書籍在庫情報の削除",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "books_stocks"
+                ],
+                "summary": "特定のIDで書籍在庫を削除する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "書籍在庫のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "書籍在庫情報が削除されました",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/types_branches": {
+            "get": {
+                "description": "全ての支部情報を取得する",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_branches"
+                ],
+                "summary": "支部のリストを取得する",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TypeBranch"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新しい支部情報の作成",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_branches"
+                ],
+                "summary": "新しい支部を作成する",
+                "parameters": [
+                    {
+                        "description": "支部情報",
+                        "name": "TypeBranch",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeBranch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeBranch"
+                        }
+                    }
+                }
+            }
+        },
+        "/types_branches/{id}": {
+            "get": {
+                "description": "IDによる支部情報の取得",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_branches"
+                ],
+                "summary": "特定のIDで支部を取得する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "支部のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeBranch"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "IDによる支部情報の更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_branches"
+                ],
+                "summary": "特定のIDで支部を更新する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "支部のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "支部情報",
+                        "name": "TypeBranch",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeBranch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeBranch"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "IDによる支部情報の削除",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_branches"
+                ],
+                "summary": "特定のIDで支部を削除する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "支部のID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "支部情報が削除されました",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/types_genres": {
+            "get": {
+                "description": "全てのジャンル情報を取得する",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_genres"
+                ],
+                "summary": "ジャンルのリストを取得する",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TypeGenre"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新しいジャンル情報の作成",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_genres"
+                ],
+                "summary": "新しいジャンルを作成する",
+                "parameters": [
+                    {
+                        "description": "ジャンル情報",
+                        "name": "TypeGenre",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeGenre"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeGenre"
+                        }
+                    }
+                }
+            }
+        },
+        "/types_genres/{id}": {
+            "get": {
+                "description": "IDによるジャンル情報の取得",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_genres"
+                ],
+                "summary": "特定のIDでジャンルを取得する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ジャンルのID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeGenre"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "IDによるジャンル情報の更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_genres"
+                ],
+                "summary": "特定のIDでジャンルを更新する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ジャンルのID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "ジャンル情報",
+                        "name": "TypeGenre",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeGenre"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/model.TypeGenre"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "IDによるジャンル情報の削除",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "types_genres"
+                ],
+                "summary": "特定のIDでジャンルを削除する",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ジャンルのID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ジャンル情報が削除されました",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.BookInfo": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "description": "書籍の著者\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "noa出版"
+                },
+                "created_at": {
+                    "description": "レコードの作成日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                },
+                "deleted_at": {
+                    "description": "レコードの削除日時\nin: body\nrequired: false",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "書籍の説明\nin: body\nrequired: false",
+                    "type": "string",
+                    "example": "ハードウェア、ソフトウェア、ネットワーク、セキュリティ、情報モラルまで知っておきたい基礎知識が1冊に分かりやすくまとまっているテキストです。"
+                },
+                "genre": {
+                    "description": "ジャンルID\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "1"
+                },
+                "id": {
+                    "description": "ID\nin: body\nrequired: true",
+                    "type": "integer",
+                    "example": 1
+                },
+                "isbn": {
+                    "description": "ISBN\nin: body\nrequired: true",
+                    "type": "integer",
+                    "example": 9784908434266
+                },
+                "list_price": {
+                    "description": "書籍の定価\nin: body\nrequired: true",
+                    "type": "integer",
+                    "example": 1000
+                },
+                "publisher": {
+                    "description": "書籍の出版社\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "noa出版"
+                },
+                "title": {
+                    "description": "書籍のタイトル\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "これだけは知っておこう!情報リテラシー"
+                },
+                "updated_at": {
+                    "description": "レコードの更新日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                }
+            }
+        },
+        "model.BookStock": {
+            "type": "object",
+            "properties": {
+                "book_info_id": {
+                    "description": "BookInfoの書籍ID\nin: body\nrequired: true\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "created_at": {
+                    "description": "レコードの作成日時\nin: body\nrequired: true\nexample: \"2023-06-20T21:20:14.000000Z\"",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                },
+                "deleted_at": {
+                    "description": "レコードの削除日時\nin: body\nrequired: false",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID\nin: body\nrequired: true\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "order": {
+                    "description": "予約総数\nin: body\nrequired: true\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "sale_price": {
+                    "description": "書籍の支部ごとの販売価格\nin: body\nrequired: true\nexample: 500",
+                    "type": "integer",
+                    "example": 500
+                },
+                "sold": {
+                    "description": "販売総数\nin: body\nrequired: true\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "stock": {
+                    "description": "在庫総数\nin: body\nrequired: true\nexample: 4",
+                    "type": "integer",
+                    "example": 4
+                },
+                "type_branch_id": {
+                    "description": "TypeBranchの支部ID\nin: body\nrequired: true\nexample: 1",
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "description": "レコードの更新日時\nin: body\nrequired: true\nexample: \"2023-06-20T21:20:14.000000Z\"",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                }
+            }
+        },
+        "model.TypeBranch": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "レコードの作成日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                },
+                "deleted_at": {
+                    "description": "レコードの削除日時\nin: body\nrequired: false",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "支部のID\nin: body\nrequired: true",
+                    "type": "integer",
+                    "example": 1
+                },
+                "type": {
+                    "description": "支部の名前\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "○○大学"
+                },
+                "updated_at": {
+                    "description": "レコードの更新日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                }
+            }
+        },
+        "model.TypeGenre": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "レコードの作成日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                },
+                "deleted_at": {
+                    "description": "レコードの削除日時\nin: body\nrequired: false",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ジャンルID\nin: body\nrequired: true",
+                    "type": "integer",
+                    "example": 1
+                },
+                "type": {
+                    "description": "ジャンル名\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "情報学"
+                },
+                "updated_at": {
+                    "description": "レコードの更新日時\nin: body\nrequired: true",
+                    "type": "string",
+                    "example": "2023-06-20T21:20:14.000000Z"
+                }
+            }
+        }
+    }
+}

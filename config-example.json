@@ -1,0 +1,7 @@
+{
+    "DevMode" : true,
+    "DSN":{
+        "Dev" : "sftsys:fortwo42@tcp(localhost:3306)/inventory_control",
+        "Production" : ""
+    }
+}
